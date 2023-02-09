@@ -1,18 +1,15 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
     :root {
         --background: #f0f2f5;
-        --red: #E52e54;
-        --blue: #5429CC;
-        --green: #33CC95;
-
-        --blue-light: #6933FF;
-
+        --red: #e52e4d;
+        --green: #33cc95;
+        --blue: #5429cc;
+        --blue-light: #6933ff;
         --text-title: #363f5f;
         --text-body: #969cb3;
-
-        --shape: #FFFFFF
+        --shape: #ffffff;
     }
 
     * {
@@ -21,7 +18,6 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
     }
 
-    // font-size: 16px (Desktop)
     html {
         @media (max-width: 1080px) {
             font-size: 93.75%; // 15px
@@ -31,8 +27,6 @@ export const GlobalStyle = createGlobalStyle`
             font-size: 87.5%; // 14px
         }
     }
-
-    // REM = 1rem = font-size = 16px
 
     body {
         background: var(--background);
