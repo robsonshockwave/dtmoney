@@ -8,5 +8,8 @@ export default {
     textTitle: "#363f5f",
     textBody: "#969cb3",
     shape: "#ffffff",
+    inputBackground: "#e7e9ee",
+    borderInput: "#d7d7d7",
+    overlay: "rgba(0, 0, 0, 0.5)",
   },
 };
