@@ -5,9 +5,8 @@ import { Header } from "./components/Header";
 import { GlobalStyle } from "./global/styles";
 import theme from "./global/theme/theme";
 import { Dashboard } from "./components/Dashboard";
-import { Summary } from "./components/Summary";
-import { TransactionsTable } from "./components/TransactionsTable";
 import { NewTransactionModal } from "./components/NewTransactionModal";
+import { TransactionsProvider } from "./hooks/useTransactions";
 
 Modal.setAppElement("#root");
 
@@ -21,16 +20,18 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Header toggleNewTransactionModal={toggleNewTransactionModal} />
+      <TransactionsProvider>
+        <Header toggleNewTransactionModal={toggleNewTransactionModal} />
 
-      <Dashboard />
+        <Dashboard />
 
-      <NewTransactionModal
-        isOpen={isNewTransactionModalOpen}
-        onRequestClose={toggleNewTransactionModal}
-      />
+        <NewTransactionModal
+          isOpen={isNewTransactionModalOpen}
+          onRequestClose={toggleNewTransactionModal}
+        />
 
-      <GlobalStyle />
+        <GlobalStyle />
+      </TransactionsProvider>
     </ThemeProvider>
   );
 }

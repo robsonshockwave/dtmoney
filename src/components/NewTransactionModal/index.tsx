@@ -1,11 +1,9 @@
-import { FormEvent } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { FieldValues } from "react-hook-form/dist/types";
 import Modal from "react-modal";
 import closeImg from "../../assets/close.svg";
 import icomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
-import { api } from "../../services/api";
+import { TransactionInput, useTransactions } from "../../hooks/useTransactions";
 import { Container, RadioBox, TransactionTypeContainer } from "./styles";
 
 interface NewTransactionModalProps {
@@ -17,13 +15,20 @@ export function NewTransactionModal({
   isOpen,
   onRequestClose,
 }: NewTransactionModalProps) {
-  const { control, handleSubmit, setValue, watch } = useForm();
+  const { createTransaction } = useTransactions();
+  const { control, handleSubmit, setValue, watch, reset } =
+    useForm<TransactionInput>();
   const data = watch();
 
-  const handleCreateNewTransaction = (data: FieldValues) => {
-    console.log(data);
+  const handleCreateNewTransaction = async (data: TransactionInput) => {
+    await createTransaction({
+      ...data,
+      amount: Number(data.amount),
+    });
 
-    api.post("/transactions", data);
+    reset();
+
+    onRequestClose();
   };
 
   return (
@@ -48,23 +53,20 @@ export function NewTransactionModal({
           control={control}
           name="title"
           render={({ field }) => <input {...field} placeholder="Título" />}
-          defaultValue=""
         />
 
         <Controller
           control={control}
-          name="value"
+          name="amount"
           render={({ field }) => (
             <input {...field} placeholder="Valor" type="number" />
           )}
-          defaultValue=""
         />
 
         <Controller
           control={control}
           name="category"
           render={({ field }) => <input {...field} placeholder="Categoria" />}
-          defaultValue=""
         />
 
         <TransactionTypeContainer>
@@ -84,7 +86,6 @@ export function NewTransactionModal({
                 <span>Entrada</span>
               </RadioBox>
             )}
-            defaultValue=""
           />
 
           <Controller
@@ -103,7 +104,6 @@ export function NewTransactionModal({
                 <span>Saída</span>
               </RadioBox>
             )}
-            defaultValue=""
           />
         </TransactionTypeContainer>
 
