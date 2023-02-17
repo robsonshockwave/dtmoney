@@ -25,10 +25,6 @@ function App() {
 
       <Dashboard />
 
-      <Summary />
-
-      <TransactionsTable />
-
       <NewTransactionModal
         isOpen={isNewTransactionModalOpen}
         onRequestClose={toggleNewTransactionModal}
