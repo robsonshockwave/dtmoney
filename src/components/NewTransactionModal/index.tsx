@@ -4,6 +4,7 @@ import closeImg from "../../assets/close.svg";
 import icomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
 import { TransactionInput, useTransactions } from "../../hooks/useTransactions";
+import { newTransactionFormModel } from "./models";
 import { Container, RadioBox, TransactionTypeContainer } from "./styles";
 
 interface NewTransactionModalProps {
@@ -17,7 +18,9 @@ export function NewTransactionModal({
 }: NewTransactionModalProps) {
   const { createTransaction } = useTransactions();
   const { control, handleSubmit, setValue, watch, reset } =
-    useForm<TransactionInput>();
+    useForm<TransactionInput>({
+      defaultValues: newTransactionFormModel,
+    });
   const data = watch();
 
   const handleCreateNewTransaction = async (data: TransactionInput) => {
