@@ -10,6 +10,8 @@ import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react';
 import * as z from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useContext } from 'react';
+import { TransactionsContext } from '../../contexts/TransactionsContext';
 
 const newTransactionSchema = z.object({
   description: z.string(),
@@ -21,7 +23,9 @@ const newTransactionSchema = z.object({
 type NewTransactionFormInputs = z.infer<typeof newTransactionSchema>;
 
 export function NewTransactionModal() {
-  const { handleSubmit, register, formState, control } =
+  const { createTransaction } = useContext(TransactionsContext);
+
+  const { handleSubmit, register, formState, control, reset } =
     useForm<NewTransactionFormInputs>({
       resolver: zodResolver(newTransactionSchema),
       defaultValues: {
@@ -29,8 +33,10 @@ export function NewTransactionModal() {
       },
     });
 
-  function handleCreateNewTransaction(data: NewTransactionFormInputs) {
-    console.log(data);
+  async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
+    await createTransaction(data);
+
+    reset();
   }
 
   return (
