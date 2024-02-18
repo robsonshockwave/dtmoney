@@ -63,3 +63,4 @@ function SearchFormComponent() {
 }
 
 export const SearchForm = memo(SearchFormComponent);
+// Não precisava do memo, mas é um exemplo de como usar
