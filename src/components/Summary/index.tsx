@@ -1,70 +1,39 @@
-import incomeImg from "../../assets/income.svg";
-import outcomeImg from "../../assets/outcome.svg";
-import totalImg from "../../assets/total.svg";
-import { useTransactions } from "../../hooks/useTransactions";
-import { Container } from "./styles";
+import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from 'phosphor-react';
+import { SummaryCard, SummaryContainer } from './styles';
+import { priceFormater } from '../../utils/formater';
+import { useSummary } from '../../hooks/useSummary';
 
 export function Summary() {
-  const { transactions } = useTransactions();
-
-  const summary = transactions.reduce(
-    (acc, transaction) => {
-      if (transaction.type === "deposit") {
-        acc.deposits += transaction.amount;
-        acc.total += transaction.amount;
-      } else {
-        acc.withdraws += transaction.amount;
-        acc.total -= transaction.amount;
-      }
-
-      return acc;
-    },
-    {
-      deposits: 0,
-      withdraws: 0,
-      total: 0,
-    }
-  );
+  const summary = useSummary();
 
   return (
-    <Container>
-      <div>
+    <SummaryContainer>
+      <SummaryCard>
         <header>
-          <p>Entradas</p>
-          <img src={incomeImg} alt="Entradas" />
+          <span>Entradas</span>
+          <ArrowCircleUp size={32} color="#00b37e" />
         </header>
-        <strong>
-          {new Intl.NumberFormat("pt-br", {
-            style: "currency",
-            currency: "BRL",
-          }).format(summary.deposits)}
-        </strong>
-      </div>
-      <div>
+
+        <strong>{priceFormater.format(summary.income)}</strong>
+      </SummaryCard>
+
+      <SummaryCard>
         <header>
-          <p>Saídas</p>
-          <img src={outcomeImg} alt="Saídas" />
+          <span>Saídas</span>
+          <ArrowCircleDown size={32} color="#f75a68" />
         </header>
-        <strong>
-          -{" "}
-          {new Intl.NumberFormat("pt-br", {
-            style: "currency",
-            currency: "BRL",
-          }).format(summary.withdraws)}
-        </strong>
-      </div>
-      <div className="highlight-background">
+
+        <strong>{priceFormater.format(summary.outcome)}</strong>
+      </SummaryCard>
+
+      <SummaryCard variant="green">
         <header>
-          <p>Total</p>
-          <img src={totalImg} alt="Total" />
+          <span>Total</span>
+          <CurrencyDollar size={32} color="#fff" />
         </header>
-        <strong>
-          {new Intl.NumberFormat("pt-br", {
-            style: "currency",
-            currency: "BRL",
-          }).format(summary.total)}
-        </strong>
-      </div>
-    </Container>
+
+        <strong>{priceFormater.format(summary.total)}</strong>
+      </SummaryCard>
+    </SummaryContainer>
   );
 }

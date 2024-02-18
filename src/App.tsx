@@ -1,36 +1,15 @@
-import { useState } from "react";
-import Modal from "react-modal";
-import { ThemeProvider } from "styled-components";
-import { Header } from "./components/Header";
-import { GlobalStyle } from "./global/styles";
-import theme from "./global/theme/theme";
-import { Dashboard } from "./components/Dashboard";
-import { NewTransactionModal } from "./components/NewTransactionModal";
-import { TransactionsProvider } from "./hooks/useTransactions";
-
-Modal.setAppElement("#root");
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyle } from './styles/global';
+import { defaultTheme } from './styles/themes/default';
+import { Transactions } from './pages/Transactions';
+import { TransactionsProvider } from './contexts/TransactionsContext';
 
 function App() {
-  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
-    useState(false);
-
-  function toggleNewTransactionModal() {
-    setIsNewTransactionModalOpen((prev) => !prev);
-  }
-
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={defaultTheme}>
+      <GlobalStyle />
       <TransactionsProvider>
-        <Header toggleNewTransactionModal={toggleNewTransactionModal} />
-
-        <Dashboard />
-
-        <NewTransactionModal
-          isOpen={isNewTransactionModalOpen}
-          onRequestClose={toggleNewTransactionModal}
-        />
-
-        <GlobalStyle />
+        <Transactions />
       </TransactionsProvider>
     </ThemeProvider>
   );

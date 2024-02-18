@@ -1,19 +1,22 @@
-import logoImg from "../../assets/logo.svg";
-import { Container, Content } from "./styles";
+import { HeaderContainer, HeaderContent, NewTransactionButton } from './styles';
+import logoImg from '../../assets/logo.svg';
+import * as Dialog from '@radix-ui/react-dialog';
+import { NewTransactionModal } from '../NewTransactionModal';
 
-interface HeaderProps {
-  toggleNewTransactionModal: () => void;
-}
-
-export function Header({ toggleNewTransactionModal }: HeaderProps) {
+export function Header() {
   return (
-    <Container>
-      <Content>
-        <img src={logoImg} alt="dt money" />
-        <button type="button" onClick={toggleNewTransactionModal}>
-          Nova transação
-        </button>
-      </Content>
-    </Container>
+    <HeaderContainer>
+      <HeaderContent>
+        <img src={logoImg} alt="" />
+
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <NewTransactionButton>Nova transação</NewTransactionButton>
+          </Dialog.Trigger>
+
+          <NewTransactionModal />
+        </Dialog.Root>
+      </HeaderContent>
+    </HeaderContainer>
   );
 }
